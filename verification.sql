@@ -61,3 +61,19 @@
     JOIN Plat p ON p.id = cp.platid
     GROUP BY c.id
     ORDER BY c.id;
+
+-- Etape 4 --
+    -- Insertion donnee de test --
+    INSERT INTO Clients(nom,prenom) VALUES ('CHIU TIEN','Mandresy Christian');
+
+    -- Attribution de quelque commade a ce client --
+    UPDATE Commandes SET clientId = 1 WHERE id = 1;
+
+    -- Recuperation des commandes avec les clients --
+    SELECT co.id, co.date, cl.nom,
+        CASE WHEN
+            co.clientid IS NULL THEN 'Client de passage' 
+        END
+    FROM Commandes as co 
+    LEFT JOIN Clients as cl
+    ON co.clientid = cl.id;

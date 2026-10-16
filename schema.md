@@ -13,3 +13,9 @@
 * `Commandes`(__id__,date)
 * `CommandePlats`(__id__,#commandeId,#platId,quantite)
   * je place la quantite dans une table intermediaire commandePlats
+
+### Schema (Etape 4)
+* `Clients`(__id__,nom,prenom)
+* `Commandes`(__id__,date,#clientId?)
+  * Non, ma clee etrangere est NULLABLE
+  * Pour ne perdre aucune commande il faudrait un LEFT JOIN
