@@ -33,3 +33,31 @@
         FROM Categorie LEFT JOIN Plat 
         ON Categorie.id = Plat.categorieid
         GROUP BY Categorie.id, Categorie.libelle;
+    
+-- Etape 3 --
+    -- Insertion donnee de test --
+    INSERT INTO Commandes(date) VALUES('2026-10-16');
+    INSERT INTO Commandes(date) VALUES('2026-10-17');
+    INSERT INTO Commandes(date) VALUES('2026-10-18');
+
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(1,1,1);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(1,2,2);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(1,3,3);
+
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(2,1,4);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(2,2,5);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(2,3,6);
+
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(3,1,7);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(3,2,8);
+    INSERT INTO Commandeplats(commandeid, platid, quantite) VALUES(3,3,9);
+
+    -- Verification du montant total de chaque comande --
+    SELECT 
+        c.id AS commande_id, 
+        SUM(cp.quantite * p.prix) AS montant_total
+    FROM Commandes c
+    JOIN commandeplats cp ON cp.commandeid = c.id
+    JOIN Plat p ON p.id = cp.platid
+    GROUP BY c.id
+    ORDER BY c.id;

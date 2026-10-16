@@ -7,3 +7,9 @@
 * `Plat`(__id__,plat,prix,#categorieId)
 * `Categorie`(__id__,libelle)
   * L'utilisation d'une colonne categorie TEXT serais compliquer sur le long terme dans le cas ou la valeur 'plat malagasy' serait different de 'plat gasy' or que c'est censer etre pareil
+
+### Schema (Etape 3)
+* `Plat`(__id__,plat,prix,#categorieId)
+* `Commandes`(__id__,date)
+* `CommandePlats`(__id__,#commandeId,#platId,quantite)
+  * je place la quantite dans une table intermediaire commandePlats
