@@ -19,3 +19,10 @@
 * `Commandes`(__id__,date,#clientId?)
   * Non, ma clee etrangere est NULLABLE
   * Pour ne perdre aucune commande il faudrait un LEFT JOIN
+
+### Schema (Etape 5)
+* `Serveurs`(__id__,nom,prenom)
+* `Tables`(__id__,nom)
+* `Commandes`(__id__,date,#clientId?,#serveurId?,#tableId?)
+  * Une table de la salle peut avoir plusieurs commandes differentes or qu'une commande ne peut etre assigner qu'a une seule table
+  * l'id de la table est censer etre ca reference or que son nom possede aussi un nombre

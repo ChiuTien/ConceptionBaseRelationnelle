@@ -73,7 +73,37 @@
     SELECT co.id, co.date, cl.nom,
         CASE WHEN
             co.clientid IS NULL THEN 'Client de passage' 
+            ELSE 'Client habitue'
         END
     FROM Commandes as co 
     LEFT JOIN Clients as cl
     ON co.clientid = cl.id;
+
+-- Etape 5 --
+    -- Insertion donnee de test --
+    INSERT INTO Serveurs(nom,prenom) VALUES('Njaka','Rakoto');
+    INSERT INTO Serveurs(nom,prenom) VALUES('Lalao','Rasoa');
+
+    INSERT INTO Tables(nom) VALUES('Table 1');
+    INSERT INTO Tables(nom) VALUES('Table 2');
+    INSERT INTO Tables(nom) VALUES('Table 3');
+    INSERT INTO Tables(nom) VALUES('Table 4');
+    INSERT INTO Tables(nom) VALUES('Table 5');
+    INSERT INTO Tables(nom) VALUES('Table 6');
+    INSERT INTO Tables(nom) VALUES('Table 7');
+    INSERT INTO Tables(nom) VALUES('Table 8');
+
+    UPDATE Commandes SET serveurId = 1, tableId = 1 WHERE id = 1;
+    UPDATE Commandes SET serveurId = 2, tableId = 1 WHERE id = 2;
+    UPDATE Commandes SET serveurId = NULL, tableId = NULL WHERE id = 3;
+
+    -- Nombre de commande et chiffre d'affaire par serveur --
+    SELECT 
+        s.nom AS serveur,
+        COUNT(DISTINCT c.id) AS nombre_commandes,
+        SUM(cp.quantite * p.prix) AS montant_total
+    FROM commandes c
+    LEFT JOIN serveurs s ON s.id = c.serveurId
+    LEFT JOIN commandeplats cp ON cp.commandeid = c.id
+    LEFT JOIN Plat p ON p.id = cp.platid
+    GROUP BY s.nom;
