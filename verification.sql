@@ -139,3 +139,12 @@
         GROUP BY cp.commandeId
     ) AS cp_totaux ON cp_totaux.commandeId = c.id
     WHERE COALESCE(cp_totaux.montant_du, 0) > COALESCE(p_totaux.montant_payer, 0);
+
+-- Etape 7 --
+    -- Insertion des prix figees --
+    UPDATE CommandePlats SET prixUnitaire = (
+        SELECT pl.prix FROM Plat as pl WHERE pl.id = platId
+    );
+
+    -- Changement du prix d'un plat --
+    UPDATE Plat SET prix = 7500 WHERE id = 1;
