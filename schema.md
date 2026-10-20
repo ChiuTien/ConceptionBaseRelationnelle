@@ -26,3 +26,8 @@
 * `Commandes`(__id__,date,#clientId?,#serveurId?,#tableId?)
   * Une table de la salle peut avoir plusieurs commandes differentes or qu'une commande ne peut etre assigner qu'a une seule table
   * l'id de la table est censer etre ca reference or que son nom possede aussi un nombre
+
+## Schema (Etape 6)
+* `TypePaiements`(__id__,libelle)
+* `Paiements`(__id__,#typeId,#commandeId,montant)
+  * Parce qu'une commande peut etre payer avec plusieurs moyen

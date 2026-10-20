@@ -107,3 +107,35 @@
     LEFT JOIN commandeplats cp ON cp.commandeid = c.id
     LEFT JOIN Plat p ON p.id = cp.platid
     GROUP BY s.nom;
+
+-- Etape 6 --
+    -- Insertion donnee de test --
+    INSERT INTO TypePaiements(libelle) VALUES('Especes');
+    INSERT INTO TypePaiements(libelle) VALUES('MVola');
+    INSERT INTO TypePaiements(libelle) VALUES('Orange Money');
+    INSERT INTO TypePaiements(libelle) VALUES('Airtel Money');
+
+    INSERT INTO Paiements(typeId,commandeId,montant) VALUES(1,1,10000);
+    INSERT INTO Paiements(typeId,commandeId,montant) VALUES(2,1,5000);
+    INSERT INTO Paiements(typeId,commandeId,montant) VALUES(3,2,6000);
+
+    -- Liste des commandes non soldees avec le montant du, le montant payer et le reste a payer --
+    SELECT 
+        c.id AS id_commande,
+        c.date AS date_commande,
+        COALESCE(p_totaux.montant_payer, 0) AS montant_payer,
+        COALESCE(cp_totaux.montant_du, 0) AS montant_du,
+        (COALESCE(cp_totaux.montant_du, 0) - COALESCE(p_totaux.montant_payer, 0)) AS reste_a_payer
+    FROM Commandes AS c
+    LEFT JOIN (
+        SELECT commandeId, SUM(montant) AS montant_payer
+        FROM Paiements
+        GROUP BY commandeId
+    ) AS p_totaux ON p_totaux.commandeId = c.id
+    LEFT JOIN (
+        SELECT cp.commandeId, SUM(cp.quantite * pl.prix) AS montant_du
+        FROM CommandePlats AS cp
+        JOIN Plat AS pl ON cp.platId = pl.id
+        GROUP BY cp.commandeId
+    ) AS cp_totaux ON cp_totaux.commandeId = c.id
+    WHERE COALESCE(cp_totaux.montant_du, 0) > COALESCE(p_totaux.montant_payer, 0);
