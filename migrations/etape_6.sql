@@ -9,7 +9,9 @@ CREATE TABLE Paiements (
     typeId      INTEGER,
     commandeId  INTEGER,
     montant     INTEGER,
+    refs        TEXT NULL
 
     FOREIGN KEY (typeId) REFERENCES TypePaiements(id),
     FOREIGN KEY (commandeId) REFERENCES Commandes(id)
 );
+
